@@ -1,7 +1,7 @@
 Package: OGRE
 Type: Package
 Title: Calculate, visualize and analyse overlap between genomic regions
-Version: 1.13.0
+Version: 1.13.1
 Authors@R: c(
     person("Sven", "Berres", email="svenbioinf@gmail.com", role = c("aut","cre")),
     person("Jörg", "Gromoll", role = c("ctb")),
@@ -16,9 +16,9 @@ Encoding: UTF-8
 LazyData: false
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.2
+RoxygenNote: 7.3.2
 Imports: GenomicRanges, methods, data.table, assertthat, ggplot2, Gviz, IRanges,
-    AnnotationHub, grDevices, stats, GenomeInfoDb, shiny, shinyFiles, DT,
+    AnnotationHub, grDevices, stats, Seqinfo, GenomeInfoDb, shiny, shinyFiles, DT,
     rtracklayer, shinydashboard, shinyBS,tidyr
 Depends: R (>= 4.2.0), S4Vectors
 Suggests: 

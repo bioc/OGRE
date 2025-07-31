@@ -222,11 +222,11 @@ GenomicRanges objects must:
 
 * Originate from a common genome build i.e. "HG19"
 
-Use `GenomeInfoDb::genome()` on any GenomicRanges object to get/set genome information
+Use `Seqinfo::genome()` on any GenomicRanges object to get/set genome information
 
 * Contain the same set of chromosomes i.e. chr1 != 1 or chrM != MT
 
-Use `GenomeInfoDb::seqinfo()` on any GenomicRanges object to get/set chromosome information
+Use `Seqinfo::seqinfo()` on any GenomicRanges object to get/set chromosome information
 
 * Contain a "name" and a (unique) "ID" column
 

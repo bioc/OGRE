@@ -28,6 +28,8 @@ loadAnnotations <- function(OGREDataSet){
 #'
 #' [readQuery()] scanns `queryFolder` for a `GRanges` object stored as .RDS/.rds
 #' or .gff .GFF file and attaches it to the OGREDataSet.
+#' @importFrom Seqinfo Seqinfo seqlevels seqlevels<- seqlengths seqlengths<-
+#'             sortSeqlevels
 #' @importFrom rtracklayer import.gff
 #' @param OGREDataSet A OGREDataSet.
 #' @return A OGREDataSet.
@@ -48,18 +50,18 @@ readQuery=function(OGREDataSet){
       OGREDataSet[[queryName]] <- rtracklayer::import.gff(queryPath,genome="hg19")%>%
       GenomeInfoDb::keepStandardChromosomes("Homo_sapiens",pruning.mode="coarse")
       GenomeInfoDb::seqlevelsStyle(OGREDataSet[[queryName]]) <- "Ensembl"
-      GenomeInfoDb::seqlevels(OGREDataSet[[queryName]])<-
-        GenomeInfoDb::seqlevels(GenomeInfoDb::Seqinfo(
+      Seqinfo::seqlevels(OGREDataSet[[queryName]])<-
+        Seqinfo::seqlevels(Seqinfo::Seqinfo(
           GenomeInfoDb::extractSeqlevels("Homo_sapiens", "Ensembl"),
                                                      genome = "hg19"))
       #getting seqlength(Chromosomes) for coverage calculation
       OGREDS<-OGREDataSetFromDir(file.path(system.file('extdata', package = 'OGRE'),"query"),
                                 file.path(system.file('extdata', package = 'OGRE'),"subject"))
       OGREDS<-loadAnnotations(OGREDS)
-      GenomeInfoDb::seqlevels(OGREDataSet)<-GenomeInfoDb::sortSeqlevels(
-        GenomeInfoDb::seqlevels(OGREDataSet))
-      GenomeInfoDb::seqlengths(OGREDataSet[[queryName]])<-
-        GenomeInfoDb::seqlengths(OGREDS[[1]])
+      Seqinfo::seqlevels(OGREDataSet)<-Seqinfo::sortSeqlevels(
+        Seqinfo::seqlevels(OGREDataSet))
+      Seqinfo::seqlengths(OGREDataSet[[queryName]])<-
+        Seqinfo::seqlengths(OGREDS[[1]])
     }
   }
   assertthat::assert_that(c("ID")%in%names(mcols(OGREDataSet[[queryName]])),
@@ -75,6 +77,8 @@ readQuery=function(OGREDataSet){
 #'
 #' [readSubject()] scanns `SubjectFolder` for `GRanges` objects stored as .RDS/.rds
 #' or .gff .GFF files and attaches them to the OGREDataSet.
+#' @importFrom Seqinfo Seqinfo seqlevels seqlevels<- seqlengths seqlengths<-
+#'             sortSeqlevels
 #' @param OGREDataSet A OGREDataSet.
 #' @return A OGREDataSet.
 #' @keywords internal
@@ -93,17 +97,17 @@ readSubject=function(OGREDataSet){
         tmp <- rtracklayer::import.gff(y)%>%
           GenomeInfoDb::keepStandardChromosomes("Homo_sapiens",pruning.mode="coarse")
         GenomeInfoDb::seqlevelsStyle(tmp) <- "Ensembl"
-        GenomeInfoDb::seqlevels(tmp)<-
-          GenomeInfoDb::seqlevels(GenomeInfoDb::Seqinfo(
+        Seqinfo::seqlevels(tmp)<-
+          Seqinfo::seqlevels(Seqinfo::Seqinfo(
             GenomeInfoDb::extractSeqlevels("Homo_sapiens", "Ensembl"),
             genome = "hg19"))
         OGREDS=OGREDataSetFromDir(file.path(system.file('extdata', package = 'OGRE'),"query"),
                                   file.path(system.file('extdata', package = 'OGRE'),"subject"))
         #getting seqlength(Chromosomes) for coverage calculation
         OGREDS<-loadAnnotations(OGREDS)
-        GenomeInfoDb::seqlevels(tmp)<-
-          GenomeInfoDb::sortSeqlevels(GenomeInfoDb::seqlevels(tmp))
-        GenomeInfoDb::seqlengths(tmp)<-GenomeInfoDb::seqlengths(OGREDS[[1]])}
+        Seqinfo::seqlevels(tmp)<-
+          Seqinfo::sortSeqlevels(Seqinfo::seqlevels(tmp))
+        Seqinfo::seqlengths(tmp)<-Seqinfo::seqlengths(OGREDS[[1]])}
       assertthat::assert_that(c("ID")%in%names(mcols(tmp)),msg="Subject must contain ID column.")
       assertthat::assert_that(!any(duplicated(tmp$ID)),msg="ID column must be unique.")
       assertthat::assert_that(length(tmp)!=0,msg=paste0("Dataset has no ranges: ",x))
